@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Temperature Converter</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #240046, #0D0D0D);
+      color: #FFF;
+      text-align: center;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      text-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    }
+    .container {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      max-width: 400px;
+      width: 100%;
+    }
+    label, select, input, button {
+      display: block;
+      width: 100%;
+      margin-bottom: 15px;
+      font-size: 1.2rem;
+    }
+    input, select {
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      background: rgba(255, 255, 255, 0.2);
+      color: #FFF;
+      font-size: 1rem;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      outline: none;
+      transition: background 0.3s;
+    }
+    input:focus, select:focus {
+      background: rgba(255, 255, 255, 0.3);
+    }
+    button {
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      background-color: #0AF;
+      color: #FFF;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 6px 15px rgba(10, 175, 255, 0.5);
+      transition: transform 0.3s ease, background-color 0.3s;
+    }
+    button:hover {
+      background-color: #E94057;
+      transform: translateY(-3px);
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 1.5rem;
+      color: #FFF;
+      text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+  </style>
+</head>
+<body>
+  <h1>Temperature Converter</h1>
+
+  <div class="container">
+    <label for="temperature">Enter Temperature:</label>
+    <input type="number" id="temperature" name="temperature" required placeholder="Temperature">
+
+    <label for="inputUnit">Input Unit:</label>
+    <select id="inputUnit">
+      <option value="fahrenheit">Fahrenheit</option>
+      <option value="celsius">Celsius</option>
+      <option value="kelvin">Kelvin</option>
+    </select>
+
+    <button id="convertButton">Convert</button>
+
+    <div id="result"></div>
+  </div>
+
+  <script>
+    function convertTemperature() {
+      const temperatureInput = document.getElementById("temperature");
+      const inputUnitSelect = document.getElementById("inputUnit");
+      const resultDiv = document.getElementById("result");
+
+      const temperature = parseFloat(temperatureInput.value);
+      const inputUnit = inputUnitSelect.value;
+
+      if (isNaN(temperature)) {
+        resultDiv.textContent = "Please enter a valid number for the temperature.";
+        return;
+      }
+
+      let convertedTemperatureCelsius;
+      let convertedTemperatureFahrenheit;
+      let convertedTemperatureKelvin;
+
+      switch (inputUnit) {
+        case "fahrenheit":
+          convertedTemperatureCelsius = (temperature - 32) * 5 / 9;
+          convertedTemperatureKelvin = convertedTemperatureCelsius + 273.15;
+          resultDiv.textContent =(`$
+
+          {temperature}°F is equal to $ {convertedTemperatureCelsius.toFixed(2)} °C or $
+          
+          {convertedTemperatureKelvin.toFixed(2)}
+          
+          K.`);
+          break;
+        case "celsius":
+          convertedTemperatureFahrenheit = (temperature * 9 / 5) + 32;
+          convertedTemperatureKelvin = temperature + 273.15;
+          resultDiv.textContent =('${temperature}°C is equal to ${convertedTemperatureFahrenheit.toFixed(2)}°F or ${convertedTemperatureKelvin.toFixed(2)}K.') ;
+          break;
+        case "kelvin":
+          convertedTemperatureCelsius = temperature - 273.15;
+          convertedTemperatureFahrenheit = (convertedTemperatureCelsius * 9 / 5) + 32;
+          resultDiv.textContent = ('${temperature}K is equal to ${convertedTemperatureCelsius.toFixed(2)}°C or ${convertedTemperatureFahrenheit.toFixed(2)}°F.');
+          break;
+        default:
+          resultDiv.textContent = "Invalid input unit.";
+          return;
+      }
+    }
+
+    document.getElementById("convertButton").addEventListener("click", convertTemperature);
+  </script>
+</body>
+</html>
